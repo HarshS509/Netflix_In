@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import Header from "./Header";
 const Login = () => {
+  const [isSignInForm, setIsSignInForm] = useState(true);
+
+  const toggleSignInForm = () => {
+    setIsSignInForm(!isSignInForm);
+  };
   return (
     <div className="relative">
       <Header />
@@ -12,7 +17,17 @@ const Login = () => {
       </div>
       <div className="flex justify-center ">
         <form className="p-12 w-3/12 my-36 rounded-md absolute bg-black bg-opacity-70 text-white">
-          <h1 className="font-bold text-3xl py-4">Sign in</h1>
+          <h1 className="font-bold text-3xl py-4">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          {!isSignInForm && (
+            <input
+              type="text"
+              placeholder="Full Name"
+              className="my-2 p-4 w-full bg-gray-700 bg-opacity-50"
+            />
+          )}
+
           <input
             type="text"
             placeholder="Email Address"
@@ -27,9 +42,13 @@ const Login = () => {
             type="submit"
             className="my-2 p-2 w-full rounded-md bg-[#E50914]"
           >
-            Sign In
+            {isSignInForm ? "Sign In" : "Sign Up"}
           </button>
-          <p className="py-4">New to Netflix? Sign Up Now</p>
+          <p onClick={toggleSignInForm} className="py-4 cursor-pointer">
+            {isSignInForm
+              ? "New to Netflix? Sign Up Now"
+              : "Already registered? Sign In Now"}
+          </p>
         </form>
       </div>
     </div>
