@@ -1,8 +1,15 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Header from "./Header";
+import { checkValidData } from "../utils/Validate";
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-
+  const [errorMessage, SetErrorMessage] = useState(null);
+  const email = useRef(null);
+  const password = useRef(null);
+  const handleButtonClick = () => {
+    const message = checkValidData(email.current.value, password.current.value);
+    SetErrorMessage(message);
+  };
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
   };
@@ -16,7 +23,10 @@ const Login = () => {
         />
       </div>
       <div className="flex justify-center ">
-        <form className="p-12 w-3/12 my-36 rounded-md absolute bg-black bg-opacity-70 text-white">
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          className="p-12 w-3/12 my-36 rounded-md absolute bg-black bg-opacity-70 text-white"
+        >
           <h1 className="font-bold text-3xl py-4">
             {isSignInForm ? "Sign In" : "Sign Up"}
           </h1>
@@ -29,16 +39,20 @@ const Login = () => {
           )}
 
           <input
+            ref={email}
             type="text"
             placeholder="Email Address"
             className="my-2 p-4 w-full bg-gray-700 bg-opacity-50"
           />
           <input
+            ref={password}
             type="password"
             placeholder="Password"
             className="my-2 p-4 w-full bg-gray-700 bg-opacity-50"
           />
+          <p className="text-red-500 font-bold py-2 text-lg ">{errorMessage}</p>
           <button
+            onClick={handleButtonClick}
             type="submit"
             className="my-2 p-2 w-full rounded-md bg-[#E50914]"
           >
